@@ -9,12 +9,12 @@ namespace Entidades
     public class DetalleCompra
     {
         public int id { get; set; }
-        public Compra compra { get; set; }
+        public int idCompra { get; set; }
         public Proveedor Proveedor { get; set; }
         public Producto producto { get; set; }
-        public decimal precioCompra { get; set; }
-        public decimal cantidad { get; set; }
-        public decimal subTotal { get; set; }
+        public double precioCompra { get; set; }
+        public int cantidad { get; set; }
+        public double subTotal { get; set; }
 
     }
 }

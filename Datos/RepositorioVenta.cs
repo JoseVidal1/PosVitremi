@@ -41,7 +41,6 @@ namespace Datos
                     foreach (var detalle in venta.detalles)
                     {
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@id", detalle.id);
                         command.Parameters.AddWithValue("@ventaId", venta.id);
                         command.Parameters.AddWithValue("@productoId", detalle.producto.id);
                         command.Parameters.AddWithValue("@cantidad", detalle.cantidad);

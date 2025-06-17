@@ -10,7 +10,8 @@ namespace Entidades
     {
         public int id { get; set; }
         public DateTime fecha { get; set; }
-        public string proveedor { get; set; }
+        public Proveedor proveedor { get; set; }
+        public double total { get; set; }
         public string estado { get; set; }
         public List<DetalleCompra> detalles { get; set; }
 
