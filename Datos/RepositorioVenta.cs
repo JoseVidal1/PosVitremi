@@ -11,9 +11,11 @@ namespace Datos
     public class RepositorioVenta: BaseDatos
     {
         private readonly RepositorioUsuario repositorioUsuario;
-        public RepositorioVenta(RepositorioUsuario repositorioUsuario)
+        private readonly RepositorioCliente repositorioCliente;
+        public RepositorioVenta(RepositorioUsuario repositorioUsuario, RepositorioCliente repositorioCliente)
         {
             this.repositorioUsuario = repositorioUsuario;
+            this.repositorioCliente = repositorioCliente;
         }
         public void Add(Venta venta)
         {
@@ -151,7 +153,7 @@ namespace Datos
             Venta Venta = new Venta
             {
                 id = Convert.ToInt32(reader["id"]),
-                Cliente = Convert.ToInt32(reader["cliente_id"]),
+                Cliente = ObtenerCliente(Convert.ToInt32(reader["cliente_id"])),
                 Usuario = ObtenerUsuario(Convert.ToInt32(reader["usuario_id"])),
                 fecha = Convert.ToDateTime(reader["fecha"]),
                 metodoPago = Convert.ToString(reader["metodo_pago"]),
@@ -164,6 +166,10 @@ namespace Datos
         private Usuario ObtenerUsuario(int usuarioId)
         {
             return repositorioUsuario.Leer().FirstOrDefault(u => u.id == usuarioId);
+        }
+        private Cliente ObtenerCliente(int clienteId)
+        {
+            return repositorioCliente.Leer().FirstOrDefault(c => c.id == clienteId);
         }
         private DetalleVenta MapDetalle(MySqlDataReader reader)
         {
