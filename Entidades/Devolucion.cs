@@ -14,6 +14,7 @@ namespace Entidades
         public int cantidad { get; set; }
         public DateTime fechaDevolucion { get; set; }
         public string motivo { get; set; }
+        public double precio { get; set; }
 
     }
 }
