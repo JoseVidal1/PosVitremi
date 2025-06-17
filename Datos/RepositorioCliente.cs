@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Datos
 {
-    internal class RepositorioCliente : BaseDatos
+    public class RepositorioCliente : BaseDatos
     {
 
         public void Add(Cliente cliente)
