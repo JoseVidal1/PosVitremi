@@ -108,6 +108,7 @@
     <Compile Include="RepositorioCategoria.cs" />
     <Compile Include="RepositorioCliente.cs" />
     <Compile Include="RepositorioProducto.cs" />
+    <Compile Include="RepositorioConfiguracion.cs" />
     <Compile Include="RepositorioProveedores.cs" />
     <Compile Include="RepositorioUsuario.cs" />
     <Compile Include="RepositorioVenta.cs" />
