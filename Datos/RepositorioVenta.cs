@@ -1,7 +1,9 @@
 ﻿using Entidades;
 using MySql.Data.MySqlClient;
+using Mysqlx;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +14,12 @@ namespace Datos
     {
         private readonly RepositorioUsuario repositorioUsuario;
         private readonly RepositorioCliente repositorioCliente;
-        public RepositorioVenta(RepositorioUsuario repositorioUsuario, RepositorioCliente repositorioCliente)
+        private readonly RepositorioProducto repositorioProducto;   
+        public RepositorioVenta(RepositorioUsuario repositorioUsuario, RepositorioCliente repositorioCliente, RepositorioProducto repositorioProducto)
         {
             this.repositorioUsuario = repositorioUsuario;
             this.repositorioCliente = repositorioCliente;
+            this.repositorioProducto = repositorioProducto;
         }
         public void Add(Venta venta)
         {
@@ -70,10 +74,14 @@ namespace Datos
 
                 while (reader.Read())
                 {
-                    VentaList.Add(Map(reader));
+                    Venta venta = Map(reader);
+                    venta.detalles = leerDetalleVenta().Where(d => d.ventaId == venta.id).ToList();
+                    VentaList.Add(venta);
                 }
                 reader.Close();
+
                 CerrarConexion();
+
             }
             catch (Exception e)
             {
@@ -81,7 +89,27 @@ namespace Datos
             }
             return VentaList;
         }
+        public List<DetalleVenta> leerDetalleVenta()
+        {
+            List<DetalleVenta> detalles = new List<DetalleVenta>();
+            string consulta = "SELECT * FROM detalle_venta";
+            try
+            {
+                MySqlCommand command = new MySqlCommand(consulta, conexion);
+                MySqlDataReader reader = command.ExecuteReader();
 
+                while (reader.Read())
+                {
+                    detalles.Add(MapDetalle(reader));
+                }
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error al leer los detalles de la venta." + e.Message);
+            }
+            return detalles;
+        }
         public bool Eliminar(int id)
         {
             const string ESTADO_INACTIVO = "Inactivo";
@@ -176,7 +204,7 @@ namespace Datos
             DetalleVenta detalle = new DetalleVenta
             {
                 id = Convert.ToInt32(reader["id"]),
-                producto = new Producto { id = Convert.ToInt32(reader["producto_id"]) },
+                producto = repositorioProducto.Leer().FirstOrDefault(p => p.id == Convert.ToInt32(reader["producto_id"])),
                 cantidad = Convert.ToInt32(reader["cantidad"]),
                 precioUnitario = Convert.ToDouble(reader["precio"]),
                 subtotal = Convert.ToDouble(reader["subtotal"])

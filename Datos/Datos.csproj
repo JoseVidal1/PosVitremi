@@ -107,6 +107,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositorioCategoria.cs" />
     <Compile Include="RepositorioCliente.cs" />
+    <Compile Include="RepositorioProducto.cs" />
     <Compile Include="RepositorioProveedores.cs" />
     <Compile Include="RepositorioUsuario.cs" />
     <Compile Include="RepositorioVenta.cs" />

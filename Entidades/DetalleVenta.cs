@@ -9,6 +9,7 @@ namespace Entidades
     public class DetalleVenta
     {
         public int id { get; set; }
+        public int ventaId { get; set; }
         public Producto producto { get; set; }
         public int cantidad { get; set; }
         public double precioUnitario { get; set; }
