@@ -36,9 +36,6 @@ namespace Datos
                 Producto p = repositorioProducto.BuscarPorId(devolucion.producto.id);
                 p.stock += devolucion.cantidad;
                 repositorioProducto.Actualizar(p);
-                Venta v = repositorioVenta.Buscar(devolucion.venta.id);
-                v.total -= devolucion.precio;
-                repositorioVenta.Actualizar(v);
             }
             catch (Exception e)
             {

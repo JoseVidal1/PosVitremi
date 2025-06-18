@@ -41,7 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LogicaCategoria.cs" />
+    <Compile Include="LogicaCliente.cs" />
+    <Compile Include="LogicaCompra.cs" />
+    <Compile Include="LogicaConfiguracion.cs" />
+    <Compile Include="LogicaDevolucion.cs" />
+    <Compile Include="LogicaProducto.cs" />
     <Compile Include="LogicaUsuario.cs" />
+    <Compile Include="LogicaVenta.cs" />
+    <Compile Include="Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -89,7 +89,36 @@ namespace Datos
                 }
             }
         }
-
+        public Usuario Login(string usuario, string contraseña)
+        {
+            try
+            {
+                string consulta = "SELECT * FROM USUARIOS WHERE usuario = @usuario AND contrasena = @contrasena";
+                using (MySqlCommand command = new MySqlCommand(consulta, conexion))
+                {
+                    command.Parameters.AddWithValue("@usuario", usuario);
+                    command.Parameters.AddWithValue("@contrasena", contraseña);
+                    AbrirConexion();
+                    MySqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        return Map(reader);
+                    }
+                    else
+                    {
+                        return null; // Usuario no encontrado
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar el usuario: " + ex.Message);
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+        }
 
         public Usuario Buscar(int id)
         {

@@ -133,7 +133,7 @@ namespace Datos
                 CerrarConexion();
             }
         }
-        public void Actualizar(Producto producto)
+        public bool Actualizar(Producto producto)
         {
             string actualizar = "UPDATE Productos SET nombre = @nombre, descripcion = @descripcion, precio_compra = @precio_compra, precio_venta = @precio_venta, stock = @stock, cantidad_min = @cantidad_min, cantidad_max = @cantidad_max, categoria_id = @categoriaId, proveedor_id = @proveedorId WHERE id = @id";
             try
@@ -152,11 +152,65 @@ namespace Datos
                     command.Parameters.AddWithValue("@proveedorId", producto.proveedor.id);
                     AbrirConexion();
                     command.ExecuteNonQuery();
+                    return true;
                 }
             }
             catch (Exception e)
             {
                 throw new Exception("Error al actualizar el Producto: " + e.Message);
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+
+        }
+        public void ActualizarStockCompra(List<DetalleCompra> detalles)
+        {
+            string actualizar = "UPDATE Productos SET stock = stock + @cantidad WHERE id = @id";
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(actualizar, conexion))
+                {
+                    foreach (var detalle in detalles)
+                    {
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@cantidad", detalle.cantidad);
+                        command.Parameters.AddWithValue("@id", detalle.producto.id);
+                        AbrirConexion();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error al actualizar el stock de los Productos: " + e.Message);
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+        }
+        public void ActualizarStockVenta(List<DetalleVenta> detalles)
+        {
+            string actualizar = "UPDATE Productos SET stock = stock - @cantidad WHERE id = @id";
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(actualizar, conexion))
+                {
+                    foreach (var detalle in detalles)
+                    {
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@cantidad", detalle.cantidad);
+                        command.Parameters.AddWithValue("@id", detalle.producto.id);
+                        AbrirConexion();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error al actualizar el stock de los Productos: " + e.Message);
             }
             finally
             {
